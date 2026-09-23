@@ -2,6 +2,21 @@
 	
 	'use strict';
 
+	if (window.jQuery) {
+		try {
+			jQuery.event.special.touchstart = {
+				setup: function( _, ns, handle ) {
+					this.addEventListener("touchstart", handle, { passive: !ns.includes("noPreventDefault") });
+				}
+			};
+			jQuery.event.special.touchmove = {
+				setup: function( _, ns, handle ) {
+					this.addEventListener("touchmove", handle, { passive: !ns.includes("noPreventDefault") });
+				}
+			};
+		} catch(e) {}
+	}
+
 	var mobileMenuOutsideClick = function() {
 
 		$(document).click(function (e) {
@@ -43,7 +58,7 @@
 	var offcanvasMenu = function() {
 
 		$('#page').prepend('<div id="gtco-offcanvas" />');
-		$('#page').prepend('<a href="#" class="js-gtco-nav-toggle gtco-nav-toggle gtco-nav-white"><i></i></a>');
+		$('#page').prepend('<a href="#" class="js-gtco-nav-toggle gtco-nav-toggle gtco-nav-white" aria-label="Toggle navigation" role="button"><i></i></a>');
 		var clone1 = $('.menu-1 > ul').clone();
 		$('#gtco-offcanvas').append(clone1);
 		var clone2 = $('.menu-2 > ul').clone();
